@@ -48,7 +48,7 @@ public class AIService {
                         .collect(Collectors.joining(", "));
 
         if (availableSpecialties.isBlank()) {
-            return "AI ERROR: No medical specialties are available.";
+            throw new IllegalArgumentException("No medical specialties are available. Please add doctors to the system first.");
         }
 
         String prompt = """
@@ -115,7 +115,7 @@ public class AIService {
 
             Map<?, ?> response = restClient.post()
                     .uri(
-                            "/v1beta/models/gemini-3.6-flash:generateContent"
+                            "/v1beta/models/gemini-1.5-flash:generateContent"
                     )
                     .header(
                             "x-goog-api-key",
@@ -131,14 +131,14 @@ public class AIService {
 
             e.printStackTrace();
 
-            return "AI ERROR: " + e.getMessage();
+            throw new IllegalArgumentException("AI ERROR: " + e.getMessage());
         }
     }
 
     private String extractText(Map<?, ?> response) {
 
         if (response == null) {
-            return "Unable to generate an AI response.";
+            throw new IllegalArgumentException("Unable to generate an AI response.");
         }
 
         Object candidates =
@@ -147,21 +147,21 @@ public class AIService {
         if (!(candidates instanceof List<?> candidateList)
                 || candidateList.isEmpty()) {
 
-            return "Unable to generate an AI response.";
+            throw new IllegalArgumentException("Unable to generate an AI response.");
         }
 
         Object firstCandidate =
                 candidateList.get(0);
 
         if (!(firstCandidate instanceof Map<?, ?> candidateMap)) {
-            return "Unable to generate an AI response.";
+            throw new IllegalArgumentException("Unable to generate an AI response.");
         }
 
         Object content =
                 candidateMap.get("content");
 
         if (!(content instanceof Map<?, ?> contentMap)) {
-            return "Unable to generate an AI response.";
+            throw new IllegalArgumentException("Unable to generate an AI response.");
         }
 
         Object parts =
@@ -170,14 +170,14 @@ public class AIService {
         if (!(parts instanceof List<?> partList)
                 || partList.isEmpty()) {
 
-            return "Unable to generate an AI response.";
+            throw new IllegalArgumentException("Unable to generate an AI response.");
         }
 
         Object firstPart =
                 partList.get(0);
 
         if (!(firstPart instanceof Map<?, ?> partMap)) {
-            return "Unable to generate an AI response.";
+            throw new IllegalArgumentException("Unable to generate an AI response.");
         }
 
         Object text =
@@ -187,6 +187,6 @@ public class AIService {
             return textValue.trim();
         }
 
-        return "Unable to generate an AI response.";
+        throw new IllegalArgumentException("Unable to generate an AI response.");
     }
 }
