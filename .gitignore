@@ -57,3 +57,5 @@ dist/
 *.key
 *.p12
 *.jks
+
+*.sql
