@@ -8,6 +8,14 @@ import {
 
 import api from "../../services/api";
 
+const doctorImages = {
+  "Dr. John Smith": "/doctors/doctor-01.jpg",
+  "Dr. Sarah Wilson": "/doctors/doctor-02.jpg",
+  "Dr. Michael Chen": "/doctors/doctor-03.jpg",
+  "Dr. Emily Carter": "/doctors/doctor-04.jpg",
+  "Dr. Priya Nair": "/doctors/doctor-05.jpg",
+};
+
 function AdminDoctors() {
   const [doctors, setDoctors] = useState([]);
   const [search, setSearch] = useState("");
@@ -185,11 +193,17 @@ function AdminDoctors() {
 
               <div className="admin-doctor-top">
 
-                <div className="admin-doctor-avatar">
-                  {getInitials(
-                    doctor.fullName
-                  )}
-                </div>
+            {doctorImages[doctor.fullName] ? (
+              <img
+                src={doctorImages[doctor.fullName]}
+                alt={doctor.fullName}
+                className="admin-doctor-image"
+              />
+            ) : (
+               <div className="doctor-avatar">
+                    {getInitials(doctor.fullName)}
+               </div>
+            )}
 
                 <span
                   className={

@@ -6107,3 +6107,11 @@
     padding: 14px 16px;
   }
 }
+
+.admin-doctor-image {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+}
