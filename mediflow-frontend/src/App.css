@@ -6115,3 +6115,63 @@
   object-fit: cover;
   display: block;
 }
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 28px;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  background: #f7f7f7;
+}
+
+.auth-tab {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 14px;
+  background: transparent;
+  color: #707070;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-tab.active {
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.auth-switch-text {
+  margin-top: 18px;
+  text-align: center;
+  color: #737373;
+  font-size: 14px;
+}
+
+.auth-switch-text button {
+  margin-left: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-switch-text button:hover {
+  text-decoration: underline;
+}
+
+.login-success {
+  padding: 11px 13px;
+  border: 1px solid #cde9d5;
+  border-radius: 8px;
+  background: #f0faf3;
+  color: #23733b;
+  font-size: 14px;
+}

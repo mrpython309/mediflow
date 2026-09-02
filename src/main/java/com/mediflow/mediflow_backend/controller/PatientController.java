@@ -18,12 +18,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @GetMapping("/dashboard")
-    public String patientDashboard(Authentication authentication) {
 
-        return "Patient dashboard for: "
-                + authentication.getName();
-    }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
