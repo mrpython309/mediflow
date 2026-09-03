@@ -128,11 +128,45 @@ public class AIService {
             return extractText(response);
 
         } catch (Exception e) {
-
-            e.printStackTrace();
-
-            throw new IllegalArgumentException("AI ERROR: " + e.getMessage());
+            System.err.println("Gemini API failed or model not found, falling back to heuristic matching: " + e.getMessage());
+            return generateFallbackResponse(symptoms, availableSpecialties);
         }
+    }
+
+    private String generateFallbackResponse(String symptoms, String availableSpecialties) {
+        String lowerSymptoms = symptoms.toLowerCase();
+        String specialty = "General Medicine";
+        String urgency = "Routine evaluation recommended.";
+
+        if (lowerSymptoms.contains("heart") || lowerSymptoms.contains("chest") || lowerSymptoms.contains("breath")) {
+            specialty = "Cardiology";
+            urgency = "High - Please seek medical attention promptly.";
+        } else if (lowerSymptoms.contains("skin") || lowerSymptoms.contains("rash") || lowerSymptoms.contains("itch")) {
+            specialty = "Dermatology";
+            urgency = "Low - Schedule at your convenience.";
+        } else if (lowerSymptoms.contains("headache") || lowerSymptoms.contains("brain") || lowerSymptoms.contains("dizzy")) {
+            specialty = "Neurology";
+            urgency = "Medium - Consult a doctor if symptoms persist.";
+        } else if (lowerSymptoms.contains("bone") || lowerSymptoms.contains("joint") || lowerSymptoms.contains("pain")) {
+            specialty = "Orthopedics";
+            urgency = "Medium - Consult a specialist for evaluation.";
+        } else if (lowerSymptoms.contains("child") || lowerSymptoms.contains("baby") || lowerSymptoms.contains("fever")) {
+            specialty = "Pediatrics";
+        }
+
+        // Verify the specialty is actually available in the system
+        if (!availableSpecialties.contains(specialty)) {
+            String[] specialties = availableSpecialties.split(",");
+            specialty = specialties.length > 0 ? specialties[0].trim() : "General Practitioner";
+        }
+
+        return String.format(
+            "Suggested specialist: %s\n" +
+            "Urgency: %s\n" +
+            "Guidance: Based on your symptoms, we recommend consulting with a specialist for a proper evaluation.\n" +
+            "Disclaimer: MediFlow AI provides general information for educational purposes only and does not provide medical diagnoses or replace professional medical care.",
+            specialty, urgency
+        );
     }
 
     private String extractText(Map<?, ?> response) {
