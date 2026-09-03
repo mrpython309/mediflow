@@ -115,7 +115,7 @@ public class AIService {
 
             Map<?, ?> response = restClient.post()
                     .uri(
-                            "/v1beta/models/gemini-1.5-flash:generateContent"
+                            "/v1beta/models/gemini-1.5-pro-latest:generateContent"
                     )
                     .header(
                             "x-goog-api-key",
